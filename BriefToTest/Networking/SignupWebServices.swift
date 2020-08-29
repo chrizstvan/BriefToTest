@@ -8,7 +8,11 @@
 
 import Foundation
 
-class SignupWebServices {
+protocol SignupWebServiceProtocol {
+    func signUp(withForm form: SignupFormRequestViewModel, completion: @escaping (SignupFormResponseModel?, SignUpError?) -> Void)
+}
+
+class SignupWebServices: SignupWebServiceProtocol {
     
     private var urlSession: URLSession // injet because it will be mock / replaceable in test
     private var urlString: String
