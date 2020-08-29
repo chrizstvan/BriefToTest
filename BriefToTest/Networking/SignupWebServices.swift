@@ -21,6 +21,7 @@ class SignupWebServices {
     func signUp(withForm form: SignupFormRequestViewModel, completion: @escaping (SignupFormResponseModel?, SignUpError?) -> Void) {
         guard let url = URL(string: urlString) else {
             //TODO: Create a unit test to test spesific error message is return when url is nil
+            completion(nil, SignUpError.invalidRequestURLStringError)
             return
         }
         
@@ -34,10 +35,15 @@ class SignupWebServices {
         urlSession.dataTask(with: request) { (data, response, error) in
             //TODO: Create unit test to handle success and error
             
+            if let requestError = error {
+                completion(nil, SignUpError.failedRequest(description: requestError.localizedDescription))
+                return
+            }
+            
             if let data = data, let signupResponse = try? JSONDecoder().decode(SignupFormResponseModel.self, from: data) {
                 completion(signupResponse, nil)
             } else {
-                //TODO: Create unit test to handle an error here
+                completion(nil, SignUpError.responseModelParsingError)
             }
             
         }.resume()

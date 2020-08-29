@@ -8,7 +8,12 @@
 
 import Foundation
 
-class SignUpFormValidator {
+protocol SignupValidatorProtocol {
+    func isFirstNameValid(firstName: String) -> Bool
+    func doPasswordMatch(password: String, repeatPassword: String) -> Bool
+}
+
+class SignUpFormValidator: SignupValidatorProtocol {
     
     func isFirstNameValid(firstName: String) -> Bool {
         var returnValue = firstName.isEmpty ? false : true
