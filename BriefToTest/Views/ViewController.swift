@@ -8,10 +8,7 @@
 
 import UIKit
 
-protocol SignupViewDelegate: AnyObject {
-    func successfulSignup()
-    func errorHandler(error: SignUpError)
-}
+
 
 class ViewController: UIViewController {
 
